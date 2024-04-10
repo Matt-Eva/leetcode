@@ -230,13 +230,17 @@ class Solution:
 
             elif not is_bowl and height[i] > height[i + 1]:
                 is_bowl = True
-                difference = height[i] - height[i + 1]
+                
+            elif is_bowl and height[i] < height[i - 1]:
+                difference = height[i - 1] - height[i]
                 print("height difference - starting bowl", difference)
                 for n in range(1, difference + 1):
-                    print("iterating through height difference range", n)
+                    layer = height[i - 1] - n
+                    print("iterating through height difference range", layer)
+                    layers[layer] = {"starting_index": i, "ending_index": None }
 
-        print(is_bowl)
-        print(total_volume)
+        print("is_bowl", is_bowl)
+        print("total_volume", total_volume)
         return total_volume
 
 solution = Solution()
@@ -245,8 +249,10 @@ one = [0, 0, 0]
 two = [0, 1, 2]
 three = [0, 2, 4, 4, 5]
 four = [4, 3, 2, 1]
+five = [5, 2, 1, 2]
 
 # solution.trap(one)
 # solution.trap(two)
 # solution.trap(three)
 solution.trap(four)
+solution.trap(five)
