@@ -218,7 +218,7 @@ class Solution:
         starting_height = 0
 
         for i in range(len(height)):
-
+            print("layers", layers)
             if i + 1 >= len(height):
                 break
                 # print("length", len(height))
@@ -230,13 +230,13 @@ class Solution:
 
             elif not is_bowl and height[i] > height[i + 1]:
                 is_bowl = True
-                
+
             elif is_bowl and height[i] < height[i - 1]:
                 difference = height[i - 1] - height[i]
-                print("height difference - starting bowl", difference)
+                # print("height difference - starting bowl", difference)
                 for n in range(1, difference + 1):
                     layer = height[i - 1] - n
-                    print("iterating through height difference range", layer)
+                    # print("iterating through height difference range", layer)
                     layers[layer] = {"starting_index": i, "ending_index": None }
 
         print("is_bowl", is_bowl)
