@@ -220,11 +220,17 @@ class Solution:
         for i in range(len(height)):
 
             if i + 1 >= len(height):
-                print("end index")
+                print("length", len(height))
+                print("end index", i)
+                print("ending height", height[i])
 
             elif not is_bowl and height[i]<= height[i+1]:
-                print("still no bowl")
+                continue
 
+            elif not is_bowl and height[i] > height[i + 1]:
+                is_bowl = True 
+
+        print(is_bowl)
         print(total_volume)
         return total_volume
 
@@ -233,5 +239,9 @@ solution = Solution()
 one = [0, 0, 0]
 two = [0, 1, 2]
 three = [0, 2, 4, 4, 5]
+four = [4, 3, 2, 1]
 
-solution.trap(one)
+# solution.trap(one)
+# solution.trap(two)
+# solution.trap(three)
+solution.trap(four)
