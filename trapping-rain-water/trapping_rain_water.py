@@ -220,15 +220,20 @@ class Solution:
         for i in range(len(height)):
 
             if i + 1 >= len(height):
-                print("length", len(height))
-                print("end index", i)
-                print("ending height", height[i])
+                break
+                # print("length", len(height))
+                # print("end index", i)
+                # print("ending height", height[i])
 
             elif not is_bowl and height[i]<= height[i+1]:
                 continue
 
             elif not is_bowl and height[i] > height[i + 1]:
-                is_bowl = True 
+                is_bowl = True
+                difference = height[i] - height[i + 1]
+                print("height difference - starting bowl", difference)
+                for n in range(1, difference + 1):
+                    print("iterating through height difference range", n)
 
         print(is_bowl)
         print(total_volume)
