@@ -27,10 +27,6 @@ class Solution:
         starting_height = 0
 
         for i in range(len(height)):
-            print("index", i)
-            print("is_bowl", is_bowl)
-            print("layers", layers)
-            print("total_volume", total_volume)
             if i + 1 >= len(height):
                 if is_bowl and height[i] > height[i - 1]:
                     for key in layers:
@@ -71,7 +67,6 @@ class Solution:
                     else:
                         is_bowl = False
                         starting_height = 0
-        print("total_volume", total_volume)
         return total_volume
 
 solution = Solution()
