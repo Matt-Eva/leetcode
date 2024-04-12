@@ -27,7 +27,10 @@ class Solution:
         starting_height = 0
 
         for i in range(len(height)):
-
+            print("index", i)
+            print("is_bowl", is_bowl)
+            print("layers", layers)
+            print("total_volume", total_volume)
             if i + 1 >= len(height):
                 if is_bowl and height[i] > height[i - 1]:
                     for key in layers:
@@ -63,9 +66,12 @@ class Solution:
                     key = closed_layers[n]
                     del layers[key]
                 if height[i] >= starting_height:
-                    is_bowl = False
-                    starting_height = 0
-
+                    if height[i] > height[i + 1]:
+                        starting_height = height[i]
+                    else:
+                        is_bowl = False
+                        starting_height = 0
+        print("total_volume", total_volume)
         return total_volume
 
 solution = Solution()
@@ -86,12 +92,15 @@ seven = [0, 0, 0, 2, 0, 1]
 # result: 1
 eight = [5, 0, 1, 2, 3, 4]
 # result: 10
+nine = [0,1,0,2,1,0,1,3,2,1,2,1]
+# result: 6
 
 # solution.trap(one)
 # solution.trap(two)
 # solution.trap(three)
 # solution.trap(four)
 # solution.trap(five)
-solution.trap(six)
-solution.trap(seven)
-solution.trap(eight)
+# solution.trap(six)
+# solution.trap(seven)
+# solution.trap(eight)
+solution.trap(nine)
