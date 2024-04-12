@@ -171,8 +171,8 @@ class Solution:
                     del relative_maximums[index]
                 relative_maximums.append({"height": height[i], "index": i})
 
-        print("relative_maximums", relative_maximums)
-        print("total_volume", total_volume)
+        # print("relative_maximums", relative_maximums)
+        # print("total_volume", total_volume)
         return total_volume
 
 
@@ -204,6 +204,7 @@ ten = [5, 0, 4, 0, 3, 0, 2, 0]
 eleven = [5, 0, 1, 0, 2, 0, 3, 0]
 twelve = [5, 0, 1, 0, 2, 0, 3, 4]
 thirteen = [5, 0, 1, 0, 2, 0, 3, 4, 2, 0, 1]
+fourteen = [6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]
 
 # solution.trap(one)
 # solution.trap(two)
@@ -213,8 +214,9 @@ thirteen = [5, 0, 1, 0, 2, 0, 3, 4, 2, 0, 1]
 # solution.trap(six)
 # solution.trap(seven)
 # solution.trap(eight)
-solution.trap(nine)
+# solution.trap(nine)
 # solution.trap(ten)
 # solution.trap(eleven)
 # solution.trap(twelve)
 # solution.trap(thirteen)
+solution.trap(fourteen)
