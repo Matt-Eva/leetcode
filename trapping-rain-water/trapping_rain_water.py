@@ -84,6 +84,7 @@ class Solution:
     #We can store the relative maximums in a list, along with their specific indexes - so a list of dictionaries.
     #Each time we find a new relative maximum, we append it to the list and iterate through the list to see if preceding relative maximums are less than the current relative maximum.
         # If they are, then we want to remove them from the list.
+    #If we are using relative maximums, we will start iterating from the bowl starting index.
 # need a few variables
 # is_bowl
 # starting_height
@@ -106,6 +107,16 @@ class Solution:
                     for n in range(bowl_starting_index + 1, i):
                         volume = bowl_starting_height - height[n]
                         total_volume += volume
+                elif is_bowl and height[i] > height[i - 1]:
+                    remove_indexes = []
+                    for n in range(len(relative_maximums)):
+                        dictionary = relative_maximums[n]
+                        if dictionary.get("height") < height[i]:
+                            remove_indexes.append(n)
+                    for index in remove_indexes:
+                        del relative_maximums[index]
+                    relative_maximums.append({"height": height[i], "index": i})
+
 
             elif not is_bowl and height[i] <= height[i + 1]:
                 # print("continuing as non-bowl")
