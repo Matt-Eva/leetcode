@@ -218,41 +218,72 @@ class Solution:
         starting_height = 0
 
         for i in range(len(height)):
-            print("layers", layers)
+
             if i + 1 >= len(height):
-                break
-                # print("length", len(height))
-                # print("end index", i)
-                # print("ending height", height[i])
+                if is_bowl and height[i] > height[i - 1]:
+                    for key in layers:
+                        num_key = int(key)
+                        if height[i] > key:
+                            starting_index = layers.get(key)
+                            volume = i - starting_index
+                            total_volume += volume
 
             elif not is_bowl and height[i]<= height[i+1]:
                 continue
 
             elif not is_bowl and height[i] > height[i + 1]:
                 is_bowl = True
+                starting_height = height[i]
 
             elif is_bowl and height[i] < height[i - 1]:
                 difference = height[i - 1] - height[i]
-                # print("height difference - starting bowl", difference)
                 for n in range(1, difference + 1):
                     layer = height[i - 1] - n
-                    # print("iterating through height difference range", layer)
-                    layers[layer] = {"starting_index": i, "ending_index": None }
+                    layers[layer] = i
+            
+            elif is_bowl and height[i] > height[i - 1]:
+                closed_layers = []
+                for key in layers:
+                    num_key = int(key)
+                    if height[i] > key:
+                        starting_index = layers.get(key)
+                        volume = i - starting_index
+                        total_volume += volume
+                        closed_layers.append(key)
+                for n in range(len(closed_layers)):
+                    key = closed_layers[n]
+                    del layers[key]
+                if height[i] >= starting_height:
+                    is_bowl = False
+                    starting_height = 0
 
-        print("is_bowl", is_bowl)
         print("total_volume", total_volume)
         return total_volume
 
 solution = Solution()
 
 one = [0, 0, 0]
+# result: 0
 two = [0, 1, 2]
+# result: 0
 three = [0, 2, 4, 4, 5]
+#result: 0
 four = [4, 3, 2, 1]
+# result: 0
 five = [5, 2, 1, 2]
+# result: 1
+six = [2, 0, 1, 2]
+# result: 3
+seven = [0, 0, 0, 2, 0, 1]
+# result: 1
+eight = [5, 0, 1, 2, 3, 4]
+# result: 10
 
 # solution.trap(one)
 # solution.trap(two)
 # solution.trap(three)
-solution.trap(four)
-solution.trap(five)
+# solution.trap(four)
+# solution.trap(five)
+solution.trap(six)
+solution.trap(seven)
+solution.trap(eight)
