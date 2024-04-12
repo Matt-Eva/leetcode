@@ -20,7 +20,9 @@ class Solution:
     # remove that layer from the hash table
 # when the height meets or exceeds the starting height of the bowl, the bowl closes.
 
-    def trap(self, height):
+
+
+    def prev(self, height):
         total_volume = 0
         is_bowl = False
         layers = {}
@@ -69,6 +71,63 @@ class Solution:
                         starting_height = 0
         return total_volume
 
+
+# This approach exceeded the time limit.
+
+# new approach - find the start of the bowl and the end of the bowl.
+# determine the bowl's final height - either starting or ending height.
+# iterate through the base of the bowl, subtracting the floor height from the final height
+# add the difference to the total volume
+# need to keep track of relative floor maximums and their indexes
+    # if we reach the end of an array, but the end is not greater than or equal to the starting height of the bowl, then we need to iterate through the sub array of relative maximums.d
+# as we're going through a bowl, we'll need to programmatically remove any relative maximums that are exceeded by a subsequent relative maximum.
+    #We can store the relative maximums in a list, along with their specific indexes - so a list of dictionaries.
+    #Each time we find a new relative maximum, we append it to the list and iterate through the list to see if preceding relative maximums are less than the current relative maximum.
+        # If they are, then we want to remove them from the list.
+# need a few variables
+# is_bowl
+# starting_height
+# starting_index
+# relative_maximum keeps track of 
+
+
+    def trap(self, height):
+        i = 0
+        total_volume = 0
+        is_bowl = False
+        bowl_starting_height = 0
+        bowl_starting_index = 0
+        relative_starting_index = 0
+        relative_maximums = []
+        for i in range(len(height)):
+
+            if i + 1 >= len(height):
+                if is_bowl and height[i] >= bowl_starting_height:
+                    for n in range(bowl_starting_index + 1, i):
+                        volume = bowl_starting_height - height[n]
+                        total_volume += volume
+
+            elif not is_bowl and height[i] <= height[i + 1]:
+                i += 1
+
+            elif not is_bowl and height[i] > height[i + 1]:
+                is_bowl = True
+                bowl_starting_height = height[i]
+                bowl_starting_index = i
+                i += 1
+
+            elif is_bowl and height[i] >= bowl_starting_height:
+                for n in range(bowl_starting_index + 1, i):
+                    volume = bowl_starting_height - height[n]
+                    total_volume += volume
+
+        print(total_volume)
+        return total_volume
+
+
+
+
+
 solution = Solution()
 
 one = [0, 0, 0]
@@ -95,7 +154,7 @@ nine = [0,1,0,2,1,0,1,3,2,1,2,1]
 # solution.trap(three)
 # solution.trap(four)
 # solution.trap(five)
-# solution.trap(six)
+solution.trap(six)
 # solution.trap(seven)
 # solution.trap(eight)
-solution.trap(nine)
+# solution.trap(nine)
