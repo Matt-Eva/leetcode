@@ -108,20 +108,39 @@ class Solution:
                         total_volume += volume
 
             elif not is_bowl and height[i] <= height[i + 1]:
+                # print("continuing as non-bowl")
                 i += 1
 
             elif not is_bowl and height[i] > height[i + 1]:
+                # print("creating new bowl")
                 is_bowl = True
                 bowl_starting_height = height[i]
                 bowl_starting_index = i
                 i += 1
 
             elif is_bowl and height[i] >= bowl_starting_height:
+                # print("closing bowl")
+                relative_maximums = []
                 for n in range(bowl_starting_index + 1, i):
                     volume = bowl_starting_height - height[n]
                     total_volume += volume
+                if height[i] > height[i + 1]:
+                    bowl_starting_index = i
+                    bowl_starting_height = height[i]
+                else:
+                    is_bowl = False
 
-        print(total_volume)
+            elif is_bowl and height[i] > height[i - 1] and height[i] > height[i + 1]:
+                remove_indexes = []
+                for n in range(len(relative_maximums)):
+                    dictionary = relative_maximums[n]
+                    if dictionary.get("height") < height[i]:
+                        remove_indexes.append(n)
+                for index in remove_indexes:
+                    del relative_maximums[index]
+                relative_maximums.append({"height": height[i], "index": i})
+        print("relative_maximums", relative_maximums)
+        print("total_volume", total_volume)
         return total_volume
 
 
@@ -149,12 +168,17 @@ eight = [5, 0, 1, 2, 3, 4]
 nine = [0,1,0,2,1,0,1,3,2,1,2,1]
 # result: 6
 
+ten = [5, 0, 4, 0, 3, 0, 2, 0]
+eleven = [5, 0, 1, 0, 2, 0, 3, 0]
+
 # solution.trap(one)
 # solution.trap(two)
 # solution.trap(three)
 # solution.trap(four)
 # solution.trap(five)
-solution.trap(six)
+# solution.trap(six)
 # solution.trap(seven)
 # solution.trap(eight)
 # solution.trap(nine)
+solution.trap(ten)
+solution.trap(eleven)
