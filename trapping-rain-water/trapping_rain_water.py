@@ -192,6 +192,7 @@ nine = [0,1,0,2,1,0,1,3,2,1,2,1]
 ten = [5, 0, 4, 0, 3, 0, 2, 0]
 eleven = [5, 0, 1, 0, 2, 0, 3, 0]
 twelve = [5, 0, 1, 0, 2, 0, 3, 4]
+thirteen = [5, 0, 1, 0, 2, 0, 3, 4, 2, 0, 1]
 
 # solution.trap(one)
 # solution.trap(two)
@@ -205,3 +206,4 @@ twelve = [5, 0, 1, 0, 2, 0, 3, 4]
 solution.trap(ten)
 solution.trap(eleven)
 solution.trap(twelve)
+solution.trap(thirteen)
