@@ -126,6 +126,17 @@ class Solution:
                                 volume = ending_height - height[p]
                                 total_volume += volume
                         relative_starting_index = ending_index
+                
+                elif is_bowl:
+                    relative_starting_index = bowl_starting_index
+                    for dictionary in relative_maximums:
+                        ending_height = dictionary.get("height")
+                        ending_index = dictionary.get("index")
+                        for p in range(relative_starting_index + 1, ending_index):
+                            if height[p] < ending_height:
+                                volume = ending_height - height[p]
+                                total_volume += volume
+                        relative_starting_index = ending_index
 
             elif not is_bowl and height[i] <= height[i + 1]:
                 # print("continuing as non-bowl")
@@ -202,8 +213,8 @@ thirteen = [5, 0, 1, 0, 2, 0, 3, 4, 2, 0, 1]
 # solution.trap(six)
 # solution.trap(seven)
 # solution.trap(eight)
-# solution.trap(nine)
-solution.trap(ten)
-solution.trap(eleven)
-solution.trap(twelve)
-solution.trap(thirteen)
+solution.trap(nine)
+# solution.trap(ten)
+# solution.trap(eleven)
+# solution.trap(twelve)
+# solution.trap(thirteen)
