@@ -107,6 +107,7 @@ class Solution:
                     for n in range(bowl_starting_index + 1, i):
                         volume = bowl_starting_height - height[n]
                         total_volume += volume
+
                 elif is_bowl and height[i] > height[i - 1]:
                     remove_indexes = []
                     for n in range(len(relative_maximums)):
@@ -116,7 +117,15 @@ class Solution:
                     for index in remove_indexes:
                         del relative_maximums[index]
                     relative_maximums.append({"height": height[i], "index": i})
-
+                    relative_starting_index = bowl_starting_index
+                    for dictionary in relative_maximums:
+                        ending_height = dictionary.get("height")
+                        ending_index = dictionary.get("index")
+                        for p in range(relative_starting_index + 1, ending_index):
+                            if height[p] < ending_height:
+                                volume = ending_height - height[p]
+                                total_volume += volume
+                        relative_starting_index = ending_index
 
             elif not is_bowl and height[i] <= height[i + 1]:
                 # print("continuing as non-bowl")
@@ -150,6 +159,7 @@ class Solution:
                 for index in remove_indexes:
                     del relative_maximums[index]
                 relative_maximums.append({"height": height[i], "index": i})
+
         print("relative_maximums", relative_maximums)
         print("total_volume", total_volume)
         return total_volume
@@ -181,6 +191,7 @@ nine = [0,1,0,2,1,0,1,3,2,1,2,1]
 
 ten = [5, 0, 4, 0, 3, 0, 2, 0]
 eleven = [5, 0, 1, 0, 2, 0, 3, 0]
+twelve = [5, 0, 1, 0, 2, 0, 3, 4]
 
 # solution.trap(one)
 # solution.trap(two)
@@ -193,3 +204,4 @@ eleven = [5, 0, 1, 0, 2, 0, 3, 0]
 # solution.trap(nine)
 solution.trap(ten)
 solution.trap(eleven)
+solution.trap(twelve)
