@@ -1,78 +1,4 @@
 class Solution:
-# Employ concept of a "bowl" that water can fill
-# treat that "bowl" as having individual horizontal layers
-# verify if a bowl exists, then iterate, calculating the volume of layers
-
-# have a variable that keeps track of total volume
-# have a boolean variable that determines if a bowl exists
-# have a starting_height variable that determines the starting height of a bowl
-# have a variable that is a hash table of layers
-# if a bowl does not yet exist, and subsequent levels are greater than or equal to the current level, do nothing and continue forward.
-# add layers to the hash table as they appear
-# a layer's height is determined by the floor of that layer. 
-    #Therefore a layer could have a height of 0
-    # This layer would close once the height reached 1 or higher
-# each layer has a starting and ending index
-    # The starting index is inclusive - the ending index is exclusive
-# when the bowl depth drops, create a layer for each level by which the bowl depth has dropped.
-# when the bowl depth rises, close any layers whose height is less than the new height.
-# when a layer closes, add the volume of the layer to the total-volume variable
-    # remove that layer from the hash table
-# when the height meets or exceeds the starting height of the bowl, the bowl closes.
-
-
-
-    def prev(self, height):
-        total_volume = 0
-        is_bowl = False
-        layers = {}
-        starting_height = 0
-
-        for i in range(len(height)):
-            if i + 1 >= len(height):
-                if is_bowl and height[i] > height[i - 1]:
-                    for key in layers:
-                        num_key = int(key)
-                        if height[i] > key:
-                            starting_index = layers.get(key)
-                            volume = i - starting_index
-                            total_volume += volume
-
-            elif not is_bowl and height[i]<= height[i+1]:
-                continue
-
-            elif not is_bowl and height[i] > height[i + 1]:
-                is_bowl = True
-                starting_height = height[i]
-
-            elif is_bowl and height[i] < height[i - 1]:
-                difference = height[i - 1] - height[i]
-                for n in range(1, difference + 1):
-                    layer = height[i - 1] - n
-                    layers[layer] = i
-            
-            elif is_bowl and height[i] > height[i - 1]:
-                closed_layers = []
-                for key in layers:
-                    num_key = int(key)
-                    if height[i] > key:
-                        starting_index = layers.get(key)
-                        volume = i - starting_index
-                        total_volume += volume
-                        closed_layers.append(key)
-                for n in range(len(closed_layers)):
-                    key = closed_layers[n]
-                    del layers[key]
-                if height[i] >= starting_height:
-                    if height[i] > height[i + 1]:
-                        starting_height = height[i]
-                    else:
-                        is_bowl = False
-                        starting_height = 0
-        return total_volume
-
-
-# This approach exceeded the time limit.
 
 # new approach - find the start of the bowl and the end of the bowl.
 # determine the bowl's final height - either starting or ending height.
@@ -101,10 +27,10 @@ class Solution:
         relative_starting_index = 0
         relative_maximums = []
         for i in range(len(height)):
-            print("index", i)
-            print("total_volume", total_volume)
-            print("is_bowl", is_bowl)
-            print("relative_maximums", relative_maximums)
+            # print("index", i)
+            # print("total_volume", total_volume)
+            # print("is_bowl", is_bowl)
+            # print("relative_maximums", relative_maximums)
             if i + 1 >= len(height):
                 if is_bowl and height[i] >= bowl_starting_height:
                     for n in range(bowl_starting_index + 1, i):
@@ -170,8 +96,8 @@ class Solution:
                 relative_maximums = new_rel_maximums
                 relative_maximums.append({"height": height[i], "index": i})
 
-        print("relative_maximums", relative_maximums)
-        print("total_volume", total_volume)
+        # print("relative_maximums", relative_maximums)
+        # print("total_volume", total_volume)
         return total_volume
 
 
