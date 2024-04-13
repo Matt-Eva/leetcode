@@ -101,7 +101,10 @@ class Solution:
         relative_starting_index = 0
         relative_maximums = []
         for i in range(len(height)):
-
+            print("index", i)
+            print("total_volume", total_volume)
+            print("is_bowl", is_bowl)
+            print("relative_maximums", relative_maximums)
             if i + 1 >= len(height):
                 if is_bowl and height[i] >= bowl_starting_height:
                     for n in range(bowl_starting_index + 1, i):
@@ -109,13 +112,11 @@ class Solution:
                         total_volume += volume
 
                 elif is_bowl and height[i] > height[i - 1]:
-                    remove_indexes = []
-                    for n in range(len(relative_maximums)):
-                        dictionary = relative_maximums[n]
-                        if dictionary.get("height") < height[i]:
-                            remove_indexes.append(n)
-                    for index in remove_indexes:
-                        del relative_maximums[index]
+                    new_rel_maximums = []
+                    for dictionary in relative_maximums:
+                        if dictionary.get("height") >= height[i]:
+                            new_rel_maximums.append(dictionary)
+                    relative_maximums = new_rel_maximums
                     relative_maximums.append({"height": height[i], "index": i})
                     relative_starting_index = bowl_starting_index
                     for dictionary in relative_maximums:
@@ -161,18 +162,16 @@ class Solution:
                 else:
                     is_bowl = False
 
-            elif is_bowl and height[i] > height[i - 1] and height[i] > height[i + 1]:
-                remove_indexes = []
-                for n in range(len(relative_maximums)):
-                    dictionary = relative_maximums[n]
-                    if dictionary.get("height") < height[i]:
-                        remove_indexes.append(n)
-                for index in remove_indexes:
-                    del relative_maximums[index]
+            elif is_bowl and height[i] > height[i - 1] and height[i] >= height[i + 1]:
+                new_rel_maximums = []
+                for dictionary in relative_maximums:
+                    if dictionary.get("height") >= height[i]:
+                        new_rel_maximums.append(dictionary)
+                relative_maximums = new_rel_maximums
                 relative_maximums.append({"height": height[i], "index": i})
 
-        # print("relative_maximums", relative_maximums)
-        # print("total_volume", total_volume)
+        print("relative_maximums", relative_maximums)
+        print("total_volume", total_volume)
         return total_volume
 
 
@@ -205,6 +204,8 @@ eleven = [5, 0, 1, 0, 2, 0, 3, 0]
 twelve = [5, 0, 1, 0, 2, 0, 3, 4]
 thirteen = [5, 0, 1, 0, 2, 0, 3, 4, 2, 0, 1]
 fourteen = [6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]
+fifteen = [9,6,8,8,5,6,3]
+# result: 3
 
 # solution.trap(one)
 # solution.trap(two)
@@ -219,4 +220,5 @@ fourteen = [6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3]
 # solution.trap(eleven)
 # solution.trap(twelve)
 # solution.trap(thirteen)
-solution.trap(fourteen)
+# solution.trap(fourteen)
+solution.trap(fifteen)
