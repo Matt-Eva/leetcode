@@ -22,4 +22,31 @@ func groupAnagrams(strs []string) [][]string {
     }
 
     return result
+
+	// Optimized solution - not my own:
+
+	// func hash(s string) string {
+	// 	res := make([]byte, 26)
+	// 	for _, c := range s {
+	// 		res[c-'a'] += 1
+	// 	}
+	// 	return string(res)
+	// }
+	
+	// func groupAnagrams(strs []string) [][]string {
+	// 	res := [][]string{}
+	// 	m := make(map[string]int)
+	// 	for _, w := range strs {
+	// 		h := hash(w)
+	// 		idx, ok := m[h]
+	// 		if ok {
+	// 			res[idx] = append(res[idx], w)
+	// 		} else {
+	// 			res = append(res, []string{w})
+	// 			m[h] = len(res) - 1
+	// 		}
+	// 	}
+	
+	// 	return res
+	// }
 }
