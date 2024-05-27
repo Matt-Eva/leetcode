@@ -8,86 +8,15 @@ import (
 func main() {
 	result := topKFrequent([]int{1, 1, 2, 2, 3}, 2)
 	fmt.Println(result)
-}
-
-func topKFrequent(nums []int, k int) []int {
-	// m := make(map[int]int)
-
-	// for _, v := range nums {
-	// 	_, ok := m[v]
-	// 	if ok {
-	// 		m[v] += 1
-	// 	} else {
-	// 		m[v] = 1
-	// 	}
-	// }
-
-	// fmt.Println(m)
-	// max := 1
-	// for _, v := range m {
-	// 	if v > max {
-	// 		max = v
-	// 	}
-	// }
-
-	// s := make([][]int, max+1)
-	// for key, v := range m {
-	// 	fmt.Println(s[v])
-	// 	if s[v] == nil {
-	// 		s[v] = []int{key}
-	// 	} else {
-	// 		s[v] = append(s[v], key)
-	// 	}
-	// }
-
-	// solution := make([]int, 0, k)
-	// for kCount, i := k, len(s)-1; kCount > 0 && i > 0; i-- {
-	// 	if s[i] != nil {
-	// 		for _, val := range s[i] {
-	// 			solution = append(solution, val)
-	// 			kCount--
-
-	// 			if kCount == 0 {
-	// 				return solution
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	// return solution
-
-	// ^^ My solution - bad. Need to look into using Heaps.
-	// https://en.wikipedia.org/wiki/Heap_(data_structure)
-	// https://pkg.go.dev/container/heap
-
-	myMap := make(map[int]int)
-
-	for _, num := range nums {
-		myMap[num]++
-	}
-
-	h := &StructHeap{}
-
-	heap.Init(h)
-	for num, frequency := range myMap {
-		fs := &FrequencyStruct{
-			Number:    num,
-			Frequency: frequency,
-		}
-		heap.Push(h, fs)
-	}
-
-	result := make([]int, 0, k)
-	minLen := h.Len() - k
-	for h.Len() > minLen  {
-		popped := heap.Pop(h).(*FrequencyStruct)
-		number := popped.Number
-		fmt.Println(number)
-
-		result = append(result, number)
-	}
-
-	return result
+	type Person struct {
+		Name string
+		Age int
+	   }
+	p := &Person{"John", 30}
+	c := p
+	c.Name = "Tim"
+	fmt.Println(p.Name)
+	fmt.Println(c)
 }
 
 type FrequencyStruct struct {
@@ -116,6 +45,86 @@ func (h *StructHeap) Pop() any {
 	*h = old[0 : n-1]
 	return x
 }
+
+func topKFrequent(nums []int, k int) []int {
+	myMap := make(map[int]int)
+
+	for _, num := range nums {
+		myMap[num]++
+	}
+
+	h := &StructHeap{}
+	heap.Init(h)
+
+	for num, frequency := range myMap {
+		fs := &FrequencyStruct{
+			Number:    num,
+			Frequency: frequency,
+		}
+		heap.Push(h, fs)
+	}
+
+	result := make([]int, 0, k)
+	minLen := h.Len() - k
+
+	for h.Len() > minLen {
+		popped := heap.Pop(h).(*FrequencyStruct)
+		result = append(result, popped.Number)
+	}
+
+	return result
+}
+
+// func topKFrequent(nums []int, k int) []int {
+// m := make(map[int]int)
+
+// for _, v := range nums {
+// 	_, ok := m[v]
+// 	if ok {
+// 		m[v] += 1
+// 	} else {
+// 		m[v] = 1
+// 	}
+// }
+
+// fmt.Println(m)
+// max := 1
+// for _, v := range m {
+// 	if v > max {
+// 		max = v
+// 	}
+// }
+
+// s := make([][]int, max+1)
+// for key, v := range m {
+// 	fmt.Println(s[v])
+// 	if s[v] == nil {
+// 		s[v] = []int{key}
+// 	} else {
+// 		s[v] = append(s[v], key)
+// 	}
+// }
+
+// solution := make([]int, 0, k)
+// for kCount, i := k, len(s)-1; kCount > 0 && i > 0; i-- {
+// 	if s[i] != nil {
+// 		for _, val := range s[i] {
+// 			solution = append(solution, val)
+// 			kCount--
+
+// 			if kCount == 0 {
+// 				return solution
+// 			}
+// 		}
+// 	}
+// }
+
+// return solution
+
+// ^^ My solution - bad. Need to look into using Heaps.
+// https://en.wikipedia.org/wiki/Heap_(data_structure)
+// https://pkg.go.dev/container/heap
+// }
 
 // Heap Notes from Claude AI:
 // In a binary heap implemented using an array, the leaf nodes are guaranteed to be in the range n/2 + 1 to n (inclusive), where n is the length of the array. This property arises from the way the heap is represented in the array.
