@@ -2,7 +2,6 @@ package main
 
 //  "fmt"
 
-
 func IsValidSudoku(board [][]string) bool {
 	// boxes are read from top-bottom, left to right
 	// box two is left most in middle
@@ -13,9 +12,9 @@ func IsValidSudoku(board [][]string) bool {
 		for _, val := range row {
 			if rowMap[val] {
 				return false
-			} else if val != "."{
-                rowMap[val] = true
-            }
+			} else if val != "." {
+				rowMap[val] = true
+			}
 		}
 
 		columnMap := make(map[string]bool)
@@ -24,49 +23,19 @@ func IsValidSudoku(board [][]string) bool {
 			val := row[i]
 			if columnMap[val] {
 				return false
-			} else if val != "."{
-                columnMap[val] = true
-            }
+			} else if val != "." {
+				columnMap[val] = true
+			}
 		}
 	}
 
-	for i := 0; i < 9; i+=3 {
-        box1 := make(map[string]bool)
-		for n := 0; n < 3; n++{
-            row := board[n]
-            for b:= i; b < i + 3; b++{
-                val := row[b]
-                if box1[val]{
-                    return false
-                } else if val != "."{
-                    box1[val] = true
-                }
-            }
-        }
-        box2 := make(map[string]bool)
-        for n:= 3; n < 6; n++{
-            row := board[n]
-            for b:= i; b < i + 3; b++{
-                val := row[b]
-                if box2[val]{
-                    return false
-                } else if val != "."{
-                    box2[val] = true
-                }
-            }
-        }
-        box3 := make(map[string]bool)
-        for n:= 6; n < 9; n++{
-            row := board[n]
-            for b:= i; b < i + 3; b++{
-                val := row[b]
-                if box3[val]{
-                    return false
-                } else if val != "."{
-                    box3[val] = true
-                }
-            }
-        }
+	for i := 0; i < 9; i += 3 {
+		for n := 0; n < 9; n += 3 {
+			isValid := validateBox(i, n, board)
+			if !isValid {
+				return false
+			}
+		}
 	}
 
 	// iterate through columns, rows, and boxes 3 at a time
@@ -74,25 +43,17 @@ func IsValidSudoku(board [][]string) bool {
 	return true
 }
 
-func validateByThree(i int, board [][]string) bool {
-	rowMap := make(map[string]bool)
-	columnMap := make(map[string]bool)
-
-	for n := i; n < i+3; n++ {
-		row := board[i]
-		for _, val := range row {
-			if rowMap[val] {
+func validateBox(i, n int, board [][]string) bool {
+	box := make(map[string]bool)
+	for b := n; b < n+3; b++ {
+		row := board[b]
+		for a := i; a < i+3; a++ {
+			val := row[a]
+			if box[val] {
 				return false
+			} else if val != "." {
+				box[val] = true
 			}
-			rowMap[val] = true
-		}
-		for b := 0; b < 9; b++ {
-			column := board[b]
-			val := column[i]
-			if columnMap[val] {
-				return false
-			}
-			columnMap[val] = true
 		}
 	}
 	return true
