@@ -60,6 +60,7 @@ func (this *MinStack) Pop() {
 
 	if topStruct.Value == this.Min {
 		previousMinStruct := topStruct.PrevMin
+		topStruct.PrevMin = nil
 
 		this.Min = previousMinStruct.Value
 		this.MinStruct = previousMinStruct
