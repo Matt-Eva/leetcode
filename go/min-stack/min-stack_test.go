@@ -32,7 +32,7 @@ func (this *MinStack) Push(val int) {
 		this.Min = val
 		this.MinStruct = &stackStruct
 		this.Stack = append(this.Stack, stackStruct)
-	} else if val < this.Min {
+	} else if val <= this.Min {
 		currentMinStruct := this.MinStruct
 		stackStruct := StackStruct{
 			Value:   val,
@@ -53,11 +53,24 @@ func (this *MinStack) Push(val int) {
 }
 
 func (this *MinStack) Pop() {
+	stackLength := len(this.Stack)
+	topStruct := &this.Stack[stackLength-1]
 
+	if stackLength == 1 {
+		this.Min = 0
+		this.MinStruct = nil
+	} else if topStruct.Value == this.Min {
+		previousMinStruct := topStruct.PrevMin
+
+		this.Min = previousMinStruct.Value
+		this.MinStruct = previousMinStruct
+	}
+
+	this.Stack = this.Stack[:stackLength-1]
 }
 
 func (this *MinStack) Top() int {
-	return this.Stack[len(this.Stack) - 1].Value
+	return this.Stack[len(this.Stack)-1].Value
 }
 
 func (this *MinStack) GetMin() int {
