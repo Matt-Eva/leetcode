@@ -9,38 +9,38 @@ func longestConsecutive(nums []int) int {
 		return 0
 	}
 
-    type NumStruct struct {
-        Visited bool
-    }
-	
+	type NumStruct struct {
+		Visited bool
+	}
+
 	set := make(map[int]*NumStruct)
 	max := 1
 
 	for _, val := range nums {
-		set[val] = &NumStruct {
-            false,
-        }
+		set[val] = &NumStruct{
+			false,
+		}
 	}
 
 	for _, num := range nums {
-        if set[num].Visited{
-            continue
-        }
+		if set[num].Visited {
+			continue
+		}
 
-        count := -1
-        for current := num; set[current] != nil; current++ {
-            count++
-            set[current].Visited = true
-        }
-
-		for current :=num; set[current] != nil; current--{
+		count := -1
+		for current := num; set[current] != nil; current++ {
 			count++
 			set[current].Visited = true
 		}
-        
-        if count > max{
-            max = count
-        }
+
+		for current := num; set[current] != nil; current-- {
+			count++
+			set[current].Visited = true
+		}
+
+		if count > max {
+			max = count
+		}
 	}
 
 	return max

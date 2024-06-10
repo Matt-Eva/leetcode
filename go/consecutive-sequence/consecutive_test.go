@@ -13,7 +13,7 @@ func TestLongestConsecutive(t *testing.T) {
 	if answer1 != testResult1 {
 		t.Fatal("first results did not match!")
 	}
-	case2 := []int{10,9,8,7,6,5,4,3,2,1}
+	case2 := []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
 	answer2 := 10
 	testResult2 := longestConsecutive(case2)
 	if answer2 != testResult2 {

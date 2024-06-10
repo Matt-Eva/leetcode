@@ -1,3 +1,9 @@
+package main
+
+import (
+	"sort"
+)
+
 func groupAnagrams(strs []string) [][]string {
     m := make(map[string][]string)
     result := make([][]string, 0, len(m))
