@@ -57,9 +57,9 @@ func (this *MinStack) Pop() {
 }
 
 func (this *MinStack) Top() int {
-	return 0
+	return this.Stack[len(this.Stack) - 1].Value
 }
 
 func (this *MinStack) GetMin() int {
-	return 0
+	return this.Min
 }
