@@ -14,47 +14,26 @@ func main() {
 
 func threeSum(nums []int) [][]int {
 
-	sumMap := make(map[int][]map[string]int)
-
-	for i := 0; i < len(nums); i++ {
-		for j := i + 1; j < len(nums); j++ {
-			keyNum := nums[i] + nums[j]
-			sumMap[keyNum] = []map[string]int{
-				{
-					"index": i,
-					"num":   nums[i],
-				},
-				{
-					"index": j,
-					"num":   nums[j],
-				},
-			}
-		}
-	}
-
-	fmt.Println("populatedSumMap", sumMap)
 
 	result := make([][]int, 0)
 
-	for i, num := range nums {
-		negativeNum := num * -1
-		if len(sumMap[negativeNum]) == 2 {
-			duplicateIndex := false
-			for _, numMap := range sumMap[negativeNum] {
-				if numMap["index"] == i {
-					duplicateIndex = true
-				}
-			}
-
-			if !duplicateIndex {
-				resultArr := []int{num, sumMap[negativeNum][0]["num"], sumMap[negativeNum][1]["num"]}
+    for i, num := range nums {
+        
+        numMap := make(map[int][]int)
+        for j := i + 1; j < len(nums); j++{
+            numMap[nums[j] + num] = []int{nums[j], num}
+        }
+        for j := i + 1; j < len(nums); j++ {
+            if len(numMap[nums[j] * -1]) == 2{
+                resultArr := []int{nums[j], numMap[nums[j] * -1][0], numMap[nums[j] * -1][1]}
                 result = append(result, resultArr)
-			}
-		}
-	}
-
-	// fmt.Println("end sumMap", sumMap)
+            }
+        }
+    }
 
 	return result
 
 }
+
+// need to delete all other possible sums
+// that means 
