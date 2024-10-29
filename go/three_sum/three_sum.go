@@ -2,39 +2,59 @@ package main
 
 import "fmt"
 
-func main(){
+func main() {
 
-    threeSum([]int{-1,0,1,2,-1,-4})
-    threeSum([]int{0,1,1})
-    threeSum([]int{0,0,0})
-    
+	// fmt.Println(threeSum([]int{-1, 0, 1, 2, -1, -4}))
+	// fmt.Println(threeSum([]int{0, 1, 1}))
+	// fmt.Println(threeSum([]int{0, 0, 0}))
+	// fmt.Println(threeSum([]int{-1, 0, 1}))
+    fmt.Println(threeSum([]int{-1, 0, 1, -9, 0, 9, 5, 4}))
+
 }
 
-func threeSum(nums []int) {
-    m := make(map[int][]int)
+func threeSum(nums []int) [][]int {
 
-    for i, num1 := range nums {
-        for j, num2 := range nums {
-            if j <= i {
-                continue
-            }
-            sum := num1 + num2
-            sumArr := []int{num1, num2}
-            m[sum] = sumArr
-        }
-    }
+	sumMap := make(map[int][]map[string]int)
 
-    // fmt.Println(m)
+	for i := 0; i < len(nums); i++ {
+		for j := i + 1; j < len(nums); j++ {
+			keyNum := nums[i] + nums[j]
+			sumMap[keyNum] = []map[string]int{
+				{
+					"index": i,
+					"num":   nums[i],
+				},
+				{
+					"index": j,
+					"num":   nums[j],
+				},
+			}
+		}
+	}
 
-    result := make([][]int, 0)
-    for _, num := range nums {
-        if len(m[num]) == 2 {
-            resultArr := []int{num, m[num][0], m[num][1]}
-            result = append(result, resultArr)
-        }
-    }
+	fmt.Println("populatedSumMap", sumMap)
 
-    fmt.Println(result)
+	result := make([][]int, 0)
 
+	for i, num := range nums {
+		negativeNum := num * -1
+		if len(sumMap[negativeNum]) == 2 {
+			duplicateIndex := false
+			for _, numMap := range sumMap[negativeNum] {
+				if numMap["index"] == i {
+					duplicateIndex = true
+				}
+			}
+
+			if !duplicateIndex {
+				resultArr := []int{num, sumMap[negativeNum][0]["num"], sumMap[negativeNum][1]["num"]}
+                result = append(result, resultArr)
+			}
+		}
+	}
+
+	// fmt.Println("end sumMap", sumMap)
+
+	return result
 
 }
