@@ -5,29 +5,19 @@ func main() {}
 func maxArea(height []int) int {
 
 	volume := 0
+	i := 0
+	j := len(height) - 1
 
-	for i := 0; i < len(height); i++ {
-		startHeight := height[i]
+	for i < j {
+		containerHeight := min(height[i], height[j])
+		width := j - i
+		newVolume := containerHeight * width
+		volume = max(newVolume, volume)
 
-		for j := len(height) - 1; j > i; j-- {
-			endHeight := height[j]
-			width := j - i
-
-			if endHeight >= startHeight{
-				newVolume := startHeight * width
-
-				if newVolume > volume {
-					volume = newVolume
-				}
-
-				break
-			}
-
-			newVolume := endHeight * width
-
-			if newVolume > volume {
-				volume = newVolume
-			}
+		if height[i] < height[j]{
+			i++
+		} else {
+			j--
 		}
 	}
 
