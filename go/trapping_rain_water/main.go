@@ -18,18 +18,12 @@ func trap(height []int) int {
 
 	for i < j{
 		if height[i] < height[j]{
-			if height[i] > leftMax {
-				leftMax = height[i]
-			} else {
-				volume += leftMax - height[i]
-			}
+			 leftMax = max(leftMax, height[i])
+			 volume += leftMax - height[i]
 			i++
 		} else {
-			if height[j] > rightMax {
-				rightMax = height[j]
-			} else {
-				volume += rightMax - height[j]
-			}
+			rightMax = max(rightMax, height[j])
+			volume += rightMax - height[j]
 			j--
 		}
 	}
@@ -232,11 +226,7 @@ func trap(height []int) int {
 
 // we don't need this - we can just try to find the relative maximum peak.
 // if we reach the end of the array, we use the relative maximum peaks
-func handleEnd(height, i, j int) int {
-	volume := 0
 
-	return volume
-}
 
 // can do this in O(n) using two pointers
 // we will calculate the size of individual "buckets"
