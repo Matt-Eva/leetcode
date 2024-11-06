@@ -1,82 +1,137 @@
 package main
 
-import "fmt"
-
 func main() {
-	// trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1})
-	// trap([]int{4,2,0,3,2,5})
-	trap([]int{6,4,2,0,3,2,0,3,1,4,5,3,2,7,5,3,0,1,2,1,3,4,6,8,1,3})
+	trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1})
+	trap([]int{4,2,0,3,2,5})
+	trap([]int{6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 0, 1, 2, 1, 3, 4, 6, 8, 1, 3})
 
 	// fmt.Println(1 + 3 + 1 + 3 + 2 + 2 + 3 + 2 + 4 + 7 + 6 + 5 + 6 + 4 + 1 + 2)
 }
 
-
-
 func trap(height []int) int {
 	
 	volume := 0
-	peaks := make([][]int, 0)
-	// peaks is slice of slices - internal slices have index as first element,
-	// height as second element
-
-	for i, h := range height {
-		if len(peaks) == 0 && i < len(height) - 1 && h > height[i + 1]{
-			peaks = append(peaks, []int{i, h})
-			continue
-		}
-		// accounts for empty slice where bowl begins.
-
-		if i > 0 && h > height[i - 1]{
-			for len(peaks) > 1 && peaks[len(peaks) - 1][1] <= peaks[len(peaks) - 2][1] && peaks[len(peaks) - 1][1] <= h {
-				peaks = peaks[:len(peaks) - 1]
-			}
-			peaks = append(peaks, []int{i, h})
-			continue
-		}
-		// removes peaks that occur between the start and end of a bowl - adds new peak
-		// as end of bowl.
-
-		if i > 0 && i < len(height) - 1 && h > height[i - 1] && h < height[i + 1]{
-			peaks = append(peaks, []int{i, h})
-			continue
-		}
-		// adds peaks that may occur within a bowl, or in general.
-
-		if len(peaks) > 0 && i < len(height) - 1 && h >= peaks[len(peaks) - 1][1] && h > height[i + 1]{
-			peaks = append(peaks, []int{i, h})
-		}
-		// accounts for a plateau that may occur.
-	}
-
-	fmt.Println(peaks)
 	
-	if len(peaks) < 2 {
-		return 0
-	}
-
-	for i := 0; i < len(peaks) - 1; i++{
-		startPeak := peaks[i]
-		endPeak := peaks[i + 1]
-		minHeight := min(startPeak[1], endPeak[1])
-		fmt.Println(minHeight, startPeak, endPeak)
-
-		for j := startPeak[0]; j < endPeak[0]; j++{
-			unitHeight := height[j]
-			storedVolume := minHeight - unitHeight
-			fmt.Println("minHeight", minHeight)
-			fmt.Println("unitHeight", unitHeight)
-			fmt.Println("storedVolume", storedVolume)
-			if storedVolume > 0{
-				volume += storedVolume
-			}
-			fmt.Println("volume", volume)
+	leftMax := 0
+	for i := 0; i < len(height); i++{
+		if height[i] > leftMax {
+			leftMax = height[i]
+		} else {
+			volume += leftMax - height[i]
 		}
 	}
 
-	fmt.Println(volume)
+	rightMax := 0
+	for i := len(height) - 1; i > 0; i-- {
+		if height[i] > rightMax{
+			rightMax = height[i]
+		}
+		
+		if leftMax > height[i]{
+			volume -= leftMax - rightMax
+		}
+	}
 
 	return volume
 }
+
+// func trap(height []int) int {
+
+// 	l := len(height)
+// 	if l < 2 {
+// 		return 0
+// 	}
+
+// 	volume := 0
+	
+// 	leftSide := height[0]
+// 	leftSides := make([]int, l)
+// 	for i, h := range height {
+// 		if h < leftSide {
+// 			leftSides[i] = leftSide
+// 		} else {
+// 			leftSide = h
+// 		}
+// 	}
+
+// 	rightSide := height[l-1]
+// 	for j := l - 1; j > 0; j-- {
+// 		if height[j] < rightSide && height[j] < leftSides[j] {
+// 			minHeight := min(rightSide, leftSides[j])
+// 			volume += minHeight - height[j]
+// 		} else {
+// 			rightSide = height[j]
+// 		}
+// 	}
+
+// 	return volume
+// }
+
+// func trap(height []int) int {
+
+// 	volume := 0
+// 	peaks := make([][]int, 0)
+// 	// peaks is slice of slices - internal slices have index as first element,
+// 	// height as second element
+
+// 	for i, h := range height {
+// 		if len(peaks) == 0 && i < len(height) - 1 && h > height[i + 1]{
+// 			peaks = append(peaks, []int{i, h})
+// 			continue
+// 		}
+// 		// accounts for empty slice where bowl begins.
+
+// 		if i > 0 && h > height[i - 1]{
+// 			for len(peaks) > 1 && peaks[len(peaks) - 1][1] <= peaks[len(peaks) - 2][1] && peaks[len(peaks) - 1][1] <= h {
+// 				peaks = peaks[:len(peaks) - 1]
+// 			}
+// 			peaks = append(peaks, []int{i, h})
+// 			continue
+// 		}
+// 		// removes peaks that occur between the start and end of a bowl - adds new peak
+// 		// as end of bowl.
+
+// 		if i > 0 && i < len(height) - 1 && h > height[i - 1] && h < height[i + 1]{
+// 			peaks = append(peaks, []int{i, h})
+// 			continue
+// 		}
+// 		// adds peaks that may occur within a bowl, or in general.
+
+// 		if len(peaks) > 0 && i < len(height) - 1 && h >= peaks[len(peaks) - 1][1] && h > height[i + 1]{
+// 			peaks = append(peaks, []int{i, h})
+// 		}
+// 		// accounts for a plateau that may occur.
+// 	}
+
+// 	fmt.Println(peaks)
+
+// 	if len(peaks) < 2 {
+// 		return 0
+// 	}
+
+// 	for i := 0; i < len(peaks) - 1; i++{
+// 		startPeak := peaks[i]
+// 		endPeak := peaks[i + 1]
+// 		minHeight := min(startPeak[1], endPeak[1])
+// 		fmt.Println(minHeight, startPeak, endPeak)
+
+// 		for j := startPeak[0]; j < endPeak[0]; j++{
+// 			unitHeight := height[j]
+// 			storedVolume := minHeight - unitHeight
+// 			fmt.Println("minHeight", minHeight)
+// 			fmt.Println("unitHeight", unitHeight)
+// 			fmt.Println("storedVolume", storedVolume)
+// 			if storedVolume > 0{
+// 				volume += storedVolume
+// 			}
+// 			fmt.Println("volume", volume)
+// 		}
+// 	}
+
+// 	fmt.Println(volume)
+
+// 	return volume
+// }
 
 // func trap(height []int) int {
 
