@@ -9,31 +9,60 @@ func main() {
 }
 
 func trap(height []int) int {
-	
 	volume := 0
-	
-	leftMax := 0
-	for i := 0; i < len(height); i++{
-		if height[i] > leftMax {
-			leftMax = height[i]
-		} else {
-			volume += leftMax - height[i]
-		}
-	}
 
+	leftMax := 0
 	rightMax := 0
-	for i := len(height) - 1; i > 0; i-- {
-		if height[i] > rightMax{
-			rightMax = height[i]
-		}
-		
-		if leftMax > height[i]{
-			volume -= leftMax - rightMax
+	i := 0
+	j := len(height) - 1
+
+	for i < j{
+		if height[i] < height[j]{
+			if height[i] > leftMax {
+				leftMax = height[i]
+			} else {
+				volume += leftMax - height[i]
+			}
+			i++
+		} else {
+			if height[j] > rightMax {
+				rightMax = height[j]
+			} else {
+				volume += rightMax - height[j]
+			}
+			j--
 		}
 	}
 
 	return volume
 }
+
+// func trap(height []int) int {
+	
+// 	volume := 0
+	
+// 	leftMax := 0
+// 	for i := 0; i < len(height); i++{
+// 		if height[i] > leftMax {
+// 			leftMax = height[i]
+// 		} else {
+// 			volume += leftMax - height[i]
+// 		}
+// 	}
+
+// 	rightMax := 0
+// 	for i := len(height) - 1; i > 0; i-- {
+// 		if height[i] > rightMax{
+// 			rightMax = height[i]
+// 		}
+		
+// 		if leftMax > height[i]{
+// 			volume -= leftMax - rightMax
+// 		}
+// 	}
+
+// 	return volume
+// }
 
 // func trap(height []int) int {
 
